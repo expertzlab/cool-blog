@@ -1,0 +1,21 @@
+var {Transform} = require('stream')
+var nums = []
+const inoutstream = new Transform({
+	transform: function(chunk, encoding, callback){
+    	console.log(chunk.toString())
+    	nums.push(parseInt(chunk.toString()))
+    	console.log(nums)
+
+    	callback(null, 'sum='+sum(nums)+'\n')
+    	//return nums.toString()
+	}
+})
+
+function sum(arr){
+	var s1 = 0
+	arr.forEach(x => s1 += x)
+	return s1
+}
+
+process.stdin.pipe(inoutstream).pipe(process.stdout)
+

@@ -6,7 +6,7 @@ async function fetchPosts() {
   const url =
 	"http://localhost:3000/posts.json";
   console.log("fetch called");
-  const response = await fetch(url);
+  const response = await fetch(url, {cache: 'no-store'});
 
   const data = await response.json();
 
@@ -39,6 +39,7 @@ export async function getStaticProps() {
   	posts,
   	lastRenderedTime,
 	},
+	revalidate: 10
   };
 }
 

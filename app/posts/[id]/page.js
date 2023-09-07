@@ -1,4 +1,30 @@
-export default function ParamHome({params}){
-    console.log('params:', params)
-    return <h1>This is from Home {params.id} page</h1>;
+
+"use client";
+import { useState, useEffect } from "react";
+
+export default function PostDetailPage({ params }) {
+
+const {id: postid } = params;
+console.log('postid:', postid)
+const [post, setPost] = useState(null);
+
+useEffect(() => {
+    fetch(`/api/posts/${postid}`)
+    .then((data) => data.json())
+    .then((response) => setPost(response.data.post));
+}, [postid]);
+
+if (!post) {
+return <p>Loading...</p>;
+
+}
+
+return (
+<>
+<h1>Detail Page - {post.title}</h1>
+<p>{post.content}</p>
+
+</>
+
+);
 }

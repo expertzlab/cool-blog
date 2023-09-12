@@ -4,7 +4,7 @@ import path from 'path';
 import fs from "fs";
 
 import * as jose from "jose";
-import { hashpassword } from '../../utils/password-util';
+import { hashPassword } from '../../utils/password-util';
 import CONSTANTS from '../../../../data/constants';
 
 
@@ -49,7 +49,7 @@ return NextResponse.json(
 
 // Store new user in the database
 
-const hashedPassword = await hashpassword(password);
+const hashedPassword = await hashPassword(password);
 data.push({ email, password: hashedPassword, name });
 fs.writeFileSync(filePath, JSON.stringify(data));
 

@@ -1,1 +1,2 @@
-[{"email":"giri@g.com","password":"$2a$12$Nsf/LQ7YdSs2vOV5TliuwuXjHZVj98N2HLcnGFUyoMly41WQaQSnC","name":"Gireesh babu"}]
+[{"email":"giri@g.com","password":"$2a$12$Nsf/LQ7YdSs2vOV5TliuwuXjHZVj98N2HLcnGFUyoMly41WQaQSnC","name":"Gireesh babu"},
+{"email":"admin@a.com","password":"$2a$12$qrK7bdMqm4rGMxbogel1EO/OHDxIermbuwi0ZAahWf5wS3Q8qevnu","name":"Admin", "role":"admin"}]

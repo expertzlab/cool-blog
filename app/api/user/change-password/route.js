@@ -52,9 +52,10 @@ const filePath = path.join(process.cwd(), "data", "users.json");
 const fileData = fs.readFileSync(filePath);
 const data = JSON.parse(fileData);
 console.log('data received:', data)
-console.log('user email alrady:', u.email)
+
 // Check if user existed
 const user = data.find((u) => u.email === email);
+console.log('user email alrady:', user.email)
 if (!user) {
 return NextResponse.json(
 {

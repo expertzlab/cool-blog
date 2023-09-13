@@ -26,6 +26,10 @@ export default function Navigation() {
                          Create Post
                         </Link>
                     </li>
+                    <li> <Link href='/user/change-password' className={styles['nav-link']}>
+                         Change Password
+                        </Link>
+                    </li>
                     <li>
                         <span onClick={signOutHandler}
                                 className={styles['nav-link']}>

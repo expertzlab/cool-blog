@@ -2,7 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { NextResponse } from 'next/server';
 import CONSTANTS from '../../../../../data/constants';
-
+import mongoose from 'mongoose'
+import PostSchema from '../../../models/postSchema';
 
 export async function POST(request){
 	const requestBody = await request.json();
@@ -11,12 +12,15 @@ export async function POST(request){
 	const newPost = { ...requestBody, date: createdDate};
 	console.log('newPost:', newPost);
 
-	const filePath = path.join( process.cwd(), '/data', 'posts.json');
-	const fileData = fs.readFileSync(filePath);
-	const data = JSON.parse(fileData);
+	var PostModel = null;
+	try{
+		PostModel = mongoose.model('Post');
+	}catch(err){
+		PostModel = mongoose.model('Post', PostSchema)
+	}
 
-	data.push(newPost);
-	fs.writeFileSync(filePath, JSON.stringify(data));
+	const post = new PostModel(newPost);
+	post.save()
     
 	return NextResponse.json({
     	status: CONSTANTS.RESPONSE_STATUS.OK,

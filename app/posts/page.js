@@ -1,24 +1,31 @@
 
 import Link from "next/link";
 import path from "path";
+import mongoose from 'mongoose'
+import PostSchema from "../api/models/postSchema";
 
 import fs from "fs";
 export const revalidate = 30;
 
-function fetchPosts() {
-const filePath = path.join(process.cwd(), "/data", "posts.json");
-const jsonData = fs.readFileSync(filePath);
-const data = JSON.parse(jsonData);
+async function fetchPosts() {
 
-return data;
+    var PostModel = null;
+	try{
+		PostModel = mongoose.model('Post');
+	}catch(err){
+		PostModel = mongoose.model('Post', PostSchema)
+	}
+	const data = await PostModel.find();
+
+    return data;
 
 }
 
-export default function AllPostsPage() {
+export default async function AllPostsPage() {
 
 const lastRenderedTime = new Date().toLocaleTimeString();
 
-const posts = fetchPosts();
+const posts = await fetchPosts();
 return (
 <>
 <h1>All Posts</h1>

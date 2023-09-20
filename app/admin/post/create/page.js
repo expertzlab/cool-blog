@@ -1,36 +1,72 @@
 
 'use client';
 
-import { useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import CONSTANTS from '../../../../data/constants';
+import Checkbox from '../../../components/ui/checkbox';
+import ImageSelector from '../../../components/image-selector';
+import styles from './new-post-form.module.css';
 
 export default function CreatePostPage() {
 
 const [slugLabel, setSlugLabel] = useState("<slug>");
 const slugInputRef = useRef();
 const titleInputRef = useRef();
-const thumbnaillnputRef = useRef();
+const thumbnailInputRef = useRef();
 const excerptInputRef = useRef();
 const contentInputRef = useRef();
+const formRef = useRef();
+
+const [imageSelectors, setImageSelectors] = useState([1]);
+const [images, setiImages] = useState([]);
+
+function addImage(addedImage) {
+	setImages([...images, addedImage]);
+}
+
+function removeImage(removedImage) {
+	const filterdImages = images.filter((i) => i.name !== removedImage.name);
+	setImages(filterdImages);
+}
+
+function setThumbnail(fileName) {
+	thumbnailInputRef.current.value = fileName;
+
+}
+
+function addImageSelector() {
+	setImageSelectors([...imageSelectors, 1]);
+
+}
+
 
 function updatePostUrl() {
 	setSlugLabel(slugInputRef.current.value);
 
 }
 
+function isValidForm() {
+    if (imageslength == 0 || sluginputRef.current.value.trim().length === 0 
+        ||titleInputRef.current.value.trim().length ===0 
+        || thumbnaillnputRef.current.value.trim().length === 0
+        || excerptInputRef.current.value.trim().length === 0 
+        || contentInputRef.current.value.trim().length === 0) {
+    return false;
+    }
+    return true;
+    
+    }
+    
+
 function submitPost(event) {
 
 event.preventDefault();
+if (!isValidForm()) {
+	alert('Please select at least one image and fill in all the fields!');
+	return;
+}
 
-const formData = {
-
-	slug: slugInputRef.current.value,
-	title: titleInputRef.current.value,
-	thumb: thumbnaillnputRef.current.value,
-	excerpt: excerptInputRef.current.value,
-	content: contentInputRef.current.value,
-    
-};
+const formData = new FormData(formRef.current);
     
 	fetch('/api/admin/post/create', {
     	method: "POST",
@@ -38,7 +74,6 @@ const formData = {
     	headers: {
         	"Content-Type": 'application/json',
     	},
-    
 })
 	.then((data) => data.json())
 	.then((response) => {
@@ -53,7 +88,24 @@ const formData = {
 return (
 	<>
 	<h1>Create New Post</h1>
-	<form onSubmit={submitPost}>
+	<form onSubmit={submitPost} ref={formRef}>
+
+      {imageSelectors.map((img, index) =>
+        React.createElement(ImageSelector, {
+        key: `image-selector-${index}` ,
+        imageList: images,
+        addImage: addImage,
+        removelmage: removeImage,
+        setThumbnail: setThumbnail,
+        }))
+      }
+
+        <div className={styles['btn-add-selector']} onClick={addImageSelector}>
+        <span>Add Image Selector</span>
+
+        </div>
+
+
         <div className="row">
             <div className="col-label">
             <label htmlFor="slug">Slug</label>
@@ -80,7 +132,7 @@ return (
 
             <div className='col-input'>
             <input type="text" id="thumb" name="thumb"
-                ref={thumbnaillnputRef} />
+                ref={thumbnailInputRef} />
             </div>
         </div>
         <div className="row">
@@ -99,6 +151,12 @@ return (
             <div className="col-input">
             <textarea id="content" name="content" rows="8"
             ref={contentInputRef}></textarea>
+            </div>
+        </div>
+        <div className="row">
+            <div className="col-label"></div>
+            <div className="col-input">
+            <Checkbox label="Is Featured?" name="isFeatured" />
             </div>
         </div>
         <input type="submit" value="Submit" />

@@ -40,7 +40,7 @@ const uploadToClient = (event) => {
 };  
 
 
-function removelmageSelector() {
+function removeImageSelector() {
 	if (image) {
     	  resetInputFile();
 	if (removelmage) 
@@ -66,7 +66,7 @@ function copyFileName() {
 return (
 <div className={styles["new-img-container"]}>
 	<span className={styles["btn-delete-image"]} title="Remove"
-	onClick={removelmageSelector}>
+	onClick={removeImageSelector}>
 	X
 	</span>
 	<span className={styles["btn-copy-filename"]} title="Select this as

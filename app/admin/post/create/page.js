@@ -46,9 +46,9 @@ function updatePostUrl() {
 }
 
 function isValidForm() {
-    if (imageslength == 0 || sluginputRef.current.value.trim().length === 0 
+    if (images.length == 0 || slugInputRef.current.value.trim().length === 0 
         ||titleInputRef.current.value.trim().length ===0 
-        || thumbnaillnputRef.current.value.trim().length === 0
+        || thumbnailInputRef.current.value.trim().length === 0
         || excerptInputRef.current.value.trim().length === 0 
         || contentInputRef.current.value.trim().length === 0) {
     return false;
@@ -70,10 +70,7 @@ const formData = new FormData(formRef.current);
     
 	fetch('/api/admin/post/create', {
     	method: "POST",
-    	body: JSON.stringify(formData),
-    	headers: {
-        	"Content-Type": 'application/json',
-    	},
+    	body: formData,
 })
 	.then((data) => data.json())
 	.then((response) => {

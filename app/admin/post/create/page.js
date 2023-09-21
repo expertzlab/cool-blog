@@ -18,7 +18,7 @@ const contentInputRef = useRef();
 const formRef = useRef();
 
 const [imageSelectors, setImageSelectors] = useState([1]);
-const [images, setiImages] = useState([]);
+const [images, setImages] = useState([]);
 
 function addImage(addedImage) {
 	setImages([...images, addedImage]);

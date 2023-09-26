@@ -1,30 +1,35 @@
 
-"use client";
-import { useState, useEffect } from "react";
+import { MDXRemote } from "next-mdx-remote/rsc";
+import Image from "next/image";
+
+import styles from "./posts-detail.module.css";
+import { getPostData } from "../../utils/posts-util";
+
+export const revalidate = 30;
 
 export default function PostDetailPage({ params }) {
+const { id: postId } = params;
 
-const {id: postid } = params;
-console.log('postid:', postid)
-const [post, setPost] = useState(null);
+const post = getPostData(postId);
 
-useEffect(() => {
-    fetch(`/api/posts/${postid}`)
-    .then((data) => data.json())
-    .then((response) => setPost(response.data.post));
-}, [postid]);
+const Responsivelmage = (props) => {
+    return (
+    <span className={styles.image}>
+    <Image src={`/images/posts/${post.slug}/${props.src}`} alt={`${props.alt} `} width={600} height={300} />
+    </span>
+    );
+};
 
-if (!post) {
-return <p>Loading...</p>;
+const components = {
+    img: Responsivelmage,
 
-}
+};
 
 return (
 <>
-<h1>Detail Page - {post.title}</h1>
-<p>{post.content}</p>
-
+    <h1>{post.title}</h1>
+    <MDXRemote source={post.content} components={components} />
 </>
-
 );
 }
+
